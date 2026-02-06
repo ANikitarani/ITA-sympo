@@ -1151,7 +1151,7 @@ header {
     left: -2px;
     right: -2px;
     bottom: -2px;
-    background: linear-gradient(135deg, var(--squid-pink), var(--squid-teal), var(--squid-green));
+    
     border-radius: clamp(12px, 2vw, 15px);
     z-index: -1;
     opacity: 0;
