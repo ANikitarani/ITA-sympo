@@ -1,5 +1,6 @@
 // ========================================
 // SQUID GAME THEMED BACKGROUND ANIMATION
+// Enhanced with Mobile Optimization
 // ========================================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -11,8 +12,91 @@ document.addEventListener('DOMContentLoaded', () => {
     initLightning();
     initDollAnimation();
     initScrollAnimations();
-    initEventCardModals(); // NEW: Initialize modal functionality
+    initEventCardModals();
+    initMobileOptimizations();
+    initTouchSupport();
 });
+
+// ========================================
+// MOBILE OPTIMIZATIONS
+// ========================================
+
+function initMobileOptimizations() {
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isTablet = /iPad|Android/i.test(navigator.userAgent) && window.innerWidth >= 768;
+    
+    // Reduce particle count on mobile
+    if (isMobile && !isTablet) {
+        document.documentElement.style.setProperty('--particle-count', '30');
+    }
+    
+    // Add mobile class to body
+    if (isMobile) {
+        document.body.classList.add('mobile-device');
+    }
+    
+    // Optimize animations for low-end devices
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.body.classList.add('reduce-motion');
+    }
+    
+    // Handle orientation changes
+    window.addEventListener('orientationchange', handleOrientationChange);
+    handleOrientationChange();
+}
+
+function handleOrientationChange() {
+    const isLandscape = window.innerWidth > window.innerHeight;
+    document.body.classList.toggle('landscape', isLandscape);
+    
+    // Adjust modal max-height on orientation change
+    setTimeout(() => {
+        const modals = document.querySelectorAll('.modal-content');
+        modals.forEach(modal => {
+            if (isLandscape) {
+                modal.style.maxHeight = '80vh';
+            } else {
+                modal.style.maxHeight = '90vh';
+            }
+        });
+    }, 300);
+}
+
+// ========================================
+// TOUCH SUPPORT
+// ========================================
+
+function initTouchSupport() {
+    // Prevent zoom on double-tap for buttons
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function(event) {
+        const now = Date.now();
+        if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, false);
+    
+    // Add touch feedback to interactive elements
+    const touchElements = document.querySelectorAll('.card, .tap-details-btn, .register-btn, .modal-close');
+    
+    touchElements.forEach(element => {
+        element.addEventListener('touchstart', function() {
+            this.classList.add('touch-active');
+        }, { passive: true });
+        
+        element.addEventListener('touchend', function() {
+            setTimeout(() => {
+                this.classList.remove('touch-active');
+            }, 200);
+        }, { passive: true });
+    });
+    
+    // Improve scrolling on mobile
+    if ('scrollBehavior' in document.documentElement.style) {
+        document.documentElement.style.scrollBehavior = 'smooth';
+    }
+}
 
 // ========================================
 // EVENT CARD MODAL FUNCTIONALITY
@@ -44,6 +128,15 @@ function initEventCardModals() {
             e.stopPropagation();
             openModal(card, modalOverlay);
         });
+        
+        // Touch support for cards
+        card.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.98)';
+        }, { passive: true });
+        
+        card.addEventListener('touchend', function() {
+            this.style.transform = '';
+        }, { passive: true });
     });
     
     // Close modal when clicking overlay
@@ -59,6 +152,13 @@ function initEventCardModals() {
             closeModal(modalOverlay);
         }
     });
+    
+    // Prevent body scroll when modal is open
+    modalOverlay.addEventListener('touchmove', (e) => {
+        if (e.target === modalOverlay) {
+            e.preventDefault();
+        }
+    }, { passive: false });
 }
 
 function openModal(card, modalOverlay) {
@@ -76,7 +176,17 @@ function openModal(card, modalOverlay) {
     const closeBtn = document.createElement('button');
     closeBtn.className = 'modal-close';
     closeBtn.innerHTML = '×';
+    closeBtn.setAttribute('aria-label', 'Close modal');
     closeBtn.addEventListener('click', () => closeModal(modalOverlay));
+    
+    // Touch feedback for close button
+    closeBtn.addEventListener('touchstart', function() {
+        this.style.transform = 'scale(0.9)';
+    }, { passive: true });
+    
+    closeBtn.addEventListener('touchend', function() {
+        this.style.transform = '';
+    }, { passive: true });
     
     // Create modal header
     const modalHeader = document.createElement('div');
@@ -104,6 +214,12 @@ function openModal(card, modalOverlay) {
     // Show modal
     modalOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
+    
+    // Focus trap for accessibility
+    closeBtn.focus();
+    
+    // Scroll to top of modal content
+    modalContent.scrollTop = 0;
 }
 
 function closeModal(modalOverlay) {
@@ -227,8 +343,12 @@ function initLightning() {
     const lightning = document.getElementById('lightning');
     if (!lightning) return;
     
+    // Reduce lightning frequency on mobile
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const baseDelay = isMobile ? 7000 : 3000;
+    
     function createLightning() {
-        const nextStrike = Math.random() * 5000 + 3000;
+        const nextStrike = Math.random() * 5000 + baseDelay;
         
         setTimeout(() => {
             lightning.style.background = 'rgba(247, 66, 111, 0.3)';
@@ -266,13 +386,19 @@ function initCanvas() {
     
     const ctx = canvas.getContext('2d');
     let particles = [];
+    let animationId;
     
     function resizeCanvas() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     }
     resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(resizeCanvas, 250);
+    });
     
     class Particle {
         constructor() {
@@ -341,21 +467,43 @@ function initCanvas() {
         }
     }
     
-    const particleCount = window.innerWidth < 768 ? 40 : 100;
+    // Responsive particle count
+    function getParticleCount() {
+        if (window.innerWidth < 480) return 30;
+        if (window.innerWidth < 768) return 40;
+        if (window.innerWidth < 1024) return 60;
+        return 100;
+    }
+    
+    const particleCount = getParticleCount();
     for (let i = 0; i < particleCount; i++) {
         particles.push(new Particle());
     }
     
+    // Update particle count on resize
+    window.addEventListener('resize', () => {
+        const newCount = getParticleCount();
+        if (newCount > particles.length) {
+            for (let i = particles.length; i < newCount; i++) {
+                particles.push(new Particle());
+            }
+        } else if (newCount < particles.length) {
+            particles = particles.slice(0, newCount);
+        }
+    });
+    
     function drawConnections() {
         ctx.save();
+        const maxDistance = window.innerWidth < 768 ? 100 : 150;
+        
         for (let i = 0; i < particles.length; i++) {
             for (let j = i + 1; j < particles.length; j++) {
                 const dx = particles[i].x - particles[j].x;
                 const dy = particles[i].y - particles[j].y;
                 const distance = Math.sqrt(dx * dx + dy * dy);
                 
-                if (distance < 150) {
-                    ctx.globalAlpha = (1 - distance / 150) * 0.15;
+                if (distance < maxDistance) {
+                    ctx.globalAlpha = (1 - distance / maxDistance) * 0.15;
                     ctx.strokeStyle = '#f7426f';
                     ctx.lineWidth = 1;
                     ctx.beginPath();
@@ -379,34 +527,46 @@ function initCanvas() {
         
         drawConnections();
         
-        requestAnimationFrame(animate);
+        animationId = requestAnimationFrame(animate);
     }
     
     animate();
     
-    let mouse = { x: null, y: null, radius: 150 };
+    let mouse = { x: null, y: null, radius: window.innerWidth < 768 ? 100 : 150 };
     
-    canvas.addEventListener('mousemove', (e) => {
-        mouse.x = e.x;
-        mouse.y = e.y;
-        
-        particles.forEach(particle => {
-            const dx = mouse.x - particle.x;
-            const dy = mouse.y - particle.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
+    // Mouse interaction (desktop only)
+    if (!('ontouchstart' in window)) {
+        canvas.addEventListener('mousemove', (e) => {
+            mouse.x = e.x;
+            mouse.y = e.y;
             
-            if (distance < mouse.radius) {
-                const force = (mouse.radius - distance) / mouse.radius;
-                const angle = Math.atan2(dy, dx);
-                particle.x -= Math.cos(angle) * force * 3;
-                particle.y -= Math.sin(angle) * force * 3;
-            }
+            particles.forEach(particle => {
+                const dx = mouse.x - particle.x;
+                const dy = mouse.y - particle.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < mouse.radius) {
+                    const force = (mouse.radius - distance) / mouse.radius;
+                    const angle = Math.atan2(dy, dx);
+                    particle.x -= Math.cos(angle) * force * 3;
+                    particle.y -= Math.sin(angle) * force * 3;
+                }
+            });
         });
-    });
+        
+        canvas.addEventListener('mouseleave', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+    }
     
-    canvas.addEventListener('mouseleave', () => {
-        mouse.x = null;
-        mouse.y = null;
+    // Pause animation when page is hidden (performance optimization)
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            cancelAnimationFrame(animationId);
+        } else {
+            animate();
+        }
     });
 }
 
@@ -415,6 +575,11 @@ function initCanvas() {
 // ========================================
 
 function initGeometricShapes() {
+    // Don't add shapes on very small screens
+    if (window.innerWidth < 480) {
+        return;
+    }
+    
     const shapesContainer = document.createElement('div');
     shapesContainer.className = 'geometric-shapes';
     document.body.insertBefore(shapesContainer, document.body.firstChild);
@@ -450,9 +615,13 @@ function initSmoothScroll() {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
             if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
+                // Calculate offset for mobile (account for any fixed headers)
+                const offset = window.innerWidth < 768 ? 20 : 0;
+                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
                 });
             }
         });
@@ -466,9 +635,12 @@ function initSmoothScroll() {
 function initScrollAnimations() {
     const timelineItems = document.querySelectorAll('.timeline-item');
     
+    // Adjust threshold based on screen size
+    const threshold = window.innerWidth < 768 ? 0.1 : 0.2;
+    
     const observerOptions = {
-        threshold: 0.2,
-        rootMargin: '0px 0px -100px 0px'
+        threshold: threshold,
+        rootMargin: '0px 0px -50px 0px'
     };
     
     const observer = new IntersectionObserver((entries) => {
@@ -492,13 +664,23 @@ function initButtonEffects() {
     const registerBtn = document.getElementById('register-btn');
     
     if (registerBtn) {
-        registerBtn.addEventListener('click', () => {
+        registerBtn.addEventListener('click', (e) => {
+            e.preventDefault();
             triggerBombExplosion();
             
             setTimeout(() => {
                 window.location.href = 'https://docs.google.com/forms/d/e/1FAIpQLSfM2fvAd18VqrETj4iOcd8sHPangCXd18MYV76sHZGPAttJag/viewform?usp=sharing&ouid=104229856726734096506';
             }, 1500);
         });
+        
+        // Touch feedback
+        registerBtn.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.95)';
+        }, { passive: true });
+        
+        registerBtn.addEventListener('touchend', function() {
+            this.style.transform = '';
+        }, { passive: true });
     }
     
     const cards = document.querySelectorAll('.card');
@@ -541,13 +723,14 @@ function triggerBombExplosion() {
         explosionContainer.appendChild(shockwave);
     }
     
-    const particleCount = 40;
+    // Adjust particle count based on device
+    const particleCount = window.innerWidth < 768 ? 25 : 40;
     for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
         particle.className = 'explosion-particle';
         
         const angle = (Math.PI * 2 * i) / particleCount;
-        const distance = 200 + Math.random() * 300;
+        const distance = (window.innerWidth < 768 ? 150 : 200) + Math.random() * 300;
         const tx = Math.cos(angle) * distance;
         const ty = Math.sin(angle) * distance;
         
@@ -592,9 +775,10 @@ function glitchTitle() {
     
     setInterval(() => {
         if (Math.random() > 0.95) {
+            const glitchAmount = window.innerWidth < 768 ? 5 : 10;
             title.style.textShadow = `
-                ${Math.random() * 10 - 5}px ${Math.random() * 10 - 5}px 0 #f7426f,
-                ${Math.random() * 10 - 5}px ${Math.random() * 10 - 5}px 0 #00d9c0
+                ${Math.random() * glitchAmount - glitchAmount/2}px ${Math.random() * glitchAmount - glitchAmount/2}px 0 #f7426f,
+                ${Math.random() * glitchAmount - glitchAmount/2}px ${Math.random() * glitchAmount - glitchAmount/2}px 0 #00d9c0
             `;
             
             setTimeout(() => {
@@ -607,20 +791,67 @@ function glitchTitle() {
 glitchTitle();
 
 // ========================================
-// PERFORMANCE OPTIMIZATION
+// PERFORMANCE MONITORING
 // ========================================
 
-if (window.innerWidth < 768) {
-    document.querySelectorAll('.shape').forEach(shape => {
-        shape.style.opacity = '0.06';
+// Monitor FPS and reduce effects if necessary
+let lastFrameTime = performance.now();
+let fps = 60;
+let frameCount = 0;
+
+function monitorPerformance() {
+    frameCount++;
+    const currentTime = performance.now();
+    const delta = currentTime - lastFrameTime;
+    
+    if (delta >= 1000) {
+        fps = Math.round((frameCount * 1000) / delta);
+        frameCount = 0;
+        lastFrameTime = currentTime;
+        
+        // If FPS drops below 30, reduce effects
+        if (fps < 30 && !document.body.classList.contains('low-performance')) {
+            document.body.classList.add('low-performance');
+            console.log('Low performance detected, reducing effects');
+        }
+    }
+    
+    requestAnimationFrame(monitorPerformance);
+}
+
+if (window.innerWidth >= 768) {
+    requestAnimationFrame(monitorPerformance);
+}
+
+// ========================================
+// BATTERY OPTIMIZATION
+// ========================================
+
+if ('getBattery' in navigator) {
+    navigator.getBattery().then(battery => {
+        function updateBatteryStatus() {
+            // Reduce animations when battery is low
+            if (battery.level < 0.2 && !battery.charging) {
+                document.body.classList.add('low-battery');
+            } else {
+                document.body.classList.remove('low-battery');
+            }
+        }
+        
+        battery.addEventListener('levelchange', updateBatteryStatus);
+        battery.addEventListener('chargingchange', updateBatteryStatus);
+        updateBatteryStatus();
     });
 }
 
-document.addEventListener('visibilitychange', () => {
-    const canvas = document.getElementById('bg-canvas');
-    if (document.hidden) {
-        if (canvas) canvas.style.animationPlayState = 'paused';
-    } else {
-        if (canvas) canvas.style.animationPlayState = 'running';
-    }
-});
+// ========================================
+// SERVICE WORKER REGISTRATION (Optional)
+// ========================================
+
+if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {
+            // Service worker registration failed, continue without it
+        });
+    });
+}

@@ -48,7 +48,7 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 320px;
+    width: clamp(180px, 40vw, 320px);
     transform: translate(-50%, -50%);
     opacity: 0.55;
     z-index: 4;
@@ -66,8 +66,8 @@ body {
     position: absolute;
     top: -70px;
     left: 50%;
-    width: 500px;
-    height: 500px;
+    width: clamp(300px, 80vw, 500px);
+    height: clamp(300px, 80vw, 500px);
     background: radial-gradient(circle, 
         rgba(255, 180, 90, 0.18) 0%, 
         rgba(255, 100, 120, 0.08) 45%, 
@@ -219,8 +219,8 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 400px;
-    height: 400px;
+    width: clamp(200px, 60vw, 400px);
+    height: clamp(200px, 60vw, 400px);
     background: radial-gradient(circle, rgba(247, 66, 111, 0.3) 0%, transparent 70%);
     transform: translate(-50%, -50%);
     animation: spotlightPulse 3s ease-in-out infinite;
@@ -279,8 +279,8 @@ body {
 }
 
 .shape.circle {
-    width: 100px;
-    height: 100px;
+    width: clamp(60px, 15vw, 100px);
+    height: clamp(60px, 15vw, 100px);
     border: 3px solid var(--squid-pink);
     border-radius: 50%;
     top: 10%;
@@ -291,17 +291,17 @@ body {
 .shape.triangle {
     width: 0;
     height: 0;
-    border-left: 60px solid transparent;
-    border-right: 60px solid transparent;
-    border-bottom: 104px solid var(--squid-teal);
+    border-left: clamp(40px, 10vw, 60px) solid transparent;
+    border-right: clamp(40px, 10vw, 60px) solid transparent;
+    border-bottom: clamp(69px, 17vw, 104px) solid var(--squid-teal);
     top: 60%;
     right: 15%;
     animation: float 18s infinite ease-in-out reverse, rotate 25s infinite linear reverse;
 }
 
 .shape.square {
-    width: 80px;
-    height: 80px;
+    width: clamp(50px, 12vw, 80px);
+    height: clamp(50px, 12vw, 80px);
     border: 3px solid var(--squid-green);
     top: 40%;
     left: 70%;
@@ -309,8 +309,8 @@ body {
 }
 
 .shape.circle-2 {
-    width: 120px;
-    height: 120px;
+    width: clamp(80px, 18vw, 120px);
+    height: clamp(80px, 18vw, 120px);
     border: 4px solid var(--squid-red);
     border-radius: 50%;
     top: 75%;
@@ -321,17 +321,17 @@ body {
 .shape.triangle-2 {
     width: 0;
     height: 0;
-    border-left: 50px solid transparent;
-    border-right: 50px solid transparent;
-    border-bottom: 87px solid var(--squid-pink);
+    border-left: clamp(35px, 8vw, 50px) solid transparent;
+    border-right: clamp(35px, 8vw, 50px) solid transparent;
+    border-bottom: clamp(61px, 14vw, 87px) solid var(--squid-pink);
     top: 20%;
     right: 40%;
     animation: float 17s infinite ease-in-out, rotate 20s infinite linear;
 }
 
 .shape.square-2 {
-    width: 90px;
-    height: 90px;
+    width: clamp(60px, 14vw, 90px);
+    height: clamp(60px, 14vw, 90px);
     border: 3px solid var(--squid-teal);
     top: 85%;
     right: 25%;
@@ -399,7 +399,7 @@ body {
     background-image: 
         linear-gradient(rgba(247, 66, 111, 0.02) 1px, transparent 1px),
         linear-gradient(90deg, rgba(247, 66, 111, 0.02) 1px, transparent 1px);
-    background-size: 50px 50px;
+    background-size: clamp(30px, 8vw, 50px) clamp(30px, 8vw, 50px);
     z-index: 1;
     pointer-events: none;
     animation: gridScroll 20s linear infinite;
@@ -416,48 +416,47 @@ header, section, footer {
 }
 
 /* ========================================
-   NEW HEADER STYLES - SIMPLE & ELEGANT
+   HEADER STYLES - RESPONSIVE
 ======================================== */
 
 .college-info-simple {
     display: flex;
     align-items: center;
-    justify-content: center;   /* center everything as one block */
-    gap: 15px;                  /* controlled spacing */
-    padding: 18px 20px 10px;
+    justify-content: center;
+    gap: clamp(10px, 3vw, 15px);
+    padding: clamp(15px, 4vw, 18px) clamp(15px, 4vw, 20px) clamp(8px, 2vw, 10px);
+    flex-wrap: wrap;
 }
 
-
 .nec-logo {
-    width: 110px;        /* bigger */
-    transform: translateX(-15px); /* move slightly left */
+    width: clamp(80px, 20vw, 110px);
+    transform: translateX(clamp(-10px, -2vw, -15px));
 }
 
 .iita-logo {
-    width: 150px;        /* bigger */
-    transform: translateX(15px);  /* move slightly right */
+    width: clamp(110px, 28vw, 150px);
+    transform: translateX(clamp(10px, 2vw, 15px));
 }
 
 .college-text {
     text-align: center;
+    flex: 1 1 100%;
 }
 
-
-
-
 .college-info-simple .college-name {
-    font-size: clamp(1.3rem, 4vw, 2.5rem);
+    font-size: clamp(1.1rem, 3.5vw, 2.5rem);
     font-family: 'Orbitron', sans-serif;
     font-weight: 900;
     background: linear-gradient(135deg, #ffffff, var(--squid-teal), #ffffff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-   margin: 0 0 6px 0;
-    letter-spacing: clamp(2px, 0.5vw, 5px);
+    margin: 0 0 6px 0;
+    letter-spacing: clamp(1px, 0.4vw, 5px);
     text-shadow: 0 0 30px rgba(0, 217, 192, 0.3);
     line-height: 1.2;
     animation: shimmer 3s ease-in-out infinite;
+    background-size: 200% auto;
 }
 
 @keyframes shimmer {
@@ -470,22 +469,22 @@ header, section, footer {
 }
 
 .college-info-simple .college-subtitle {
-    font-size: clamp(0.7rem, 1.5vw, 1rem);
+    font-size: clamp(0.65rem, 1.4vw, 1rem);
     color: rgba(255, 255, 255, 0.7);
-    margin: 0 0 clamp(12px, 2.5vw, 18px) 0;
+    margin: 0 0 clamp(10px, 2vw, 18px) 0;
     font-weight: 600;
-    letter-spacing: clamp(1px, 0.3vw, 2px);
+    letter-spacing: clamp(0.5px, 0.25vw, 2px);
     text-transform: uppercase;
     line-height: 1.4;
 }
 
 .college-info-simple .dept-name {
-    font-size: clamp(1.1rem, 3vw, 1.8rem);
+    font-size: clamp(0.95rem, 2.5vw, 1.8rem);
     font-family: 'Orbitron', sans-serif;
     font-weight: 800;
     color: var(--squid-pink);
     margin: 0;
-    letter-spacing: clamp(1px, 0.3vw, 3px);
+    letter-spacing: clamp(0.5px, 0.25vw, 3px);
     text-transform: uppercase;
     text-shadow: 
         0 0 20px rgba(247, 66, 111, 0.6),
@@ -495,17 +494,17 @@ header, section, footer {
 
 .association-banner {
     text-align: center;
-    padding: clamp(30px, 5vw, 50px) 20px clamp(20px, 3vw, 30px);
+    padding: clamp(25px, 4vw, 50px) clamp(15px, 4vw, 20px) clamp(15px, 2.5vw, 30px);
     background: transparent;
 }
 
 .association-banner h3 {
-    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-size: clamp(1.6rem, 4.5vw, 3.5rem);
     font-family: 'Orbitron', sans-serif;
     font-weight: 900;
     color: var(--squid-teal);
-    margin: 0 0 clamp(10px, 2vw, 15px) 0;
-    letter-spacing: clamp(2px, 0.5vw, 5px);
+    margin: 0 0 clamp(8px, 1.5vw, 15px) 0;
+    letter-spacing: clamp(1px, 0.4vw, 5px);
     text-transform: uppercase;
     text-shadow: 
         0 0 30px rgba(0, 217, 192, 0.8),
@@ -530,12 +529,12 @@ header, section, footer {
 }
 
 .association-banner p {
-    font-size: clamp(1rem, 2vw, 1.4rem);
+    font-size: clamp(0.85rem, 1.8vw, 1.4rem);
     font-family: 'Orbitron', sans-serif;
     font-weight: 700;
     color: rgba(255, 255, 255, 0.8);
     margin: 0;
-    letter-spacing: clamp(2px, 0.4vw, 4px);
+    letter-spacing: clamp(1px, 0.35vw, 4px);
     text-transform: uppercase;
 }
 
@@ -552,18 +551,18 @@ header {
 
 .logo {
     text-align: center;
-    padding: clamp(40px, 6vw, 70px) 20px clamp(30px, 4vw, 40px);
+    padding: clamp(30px, 5vw, 70px) clamp(15px, 4vw, 20px) clamp(25px, 3.5vw, 40px);
     position: relative;
 }
 
 .ignita-title {
     font-family: 'Orbitron', sans-serif;
-    font-size: clamp(3.5rem, 12vw, 8rem);
+    font-size: clamp(2.8rem, 10vw, 8rem);
     font-weight: 900;
     margin: 0;
     position: relative;
     display: inline-block;
-    letter-spacing: clamp(3px, 1vw, 10px);
+    letter-spacing: clamp(2px, 0.8vw, 10px);
     line-height: 1;
 }
 
@@ -593,7 +592,7 @@ header {
     background-clip: text;
     filter: drop-shadow(0 0 20px rgba(0, 217, 192, 0.8));
     display: inline-block;
-    margin-left: clamp(2px, 0.5vw, 5px);
+    margin-left: clamp(2px, 0.4vw, 5px);
 }
 
 @keyframes gradientFlow {
@@ -675,12 +674,12 @@ header {
 
 .ignita-tagline {
     font-family: 'Orbitron', sans-serif;
-    font-size: clamp(0.8rem, 2vw, 1.4rem);
+    font-size: clamp(0.7rem, 1.8vw, 1.4rem);
     font-weight: 700;
     color: rgba(255, 255, 255, 0.9);
-    letter-spacing: clamp(2px, 0.5vw, 6px);
+    letter-spacing: clamp(1.5px, 0.4vw, 6px);
     text-transform: uppercase;
-    margin-top: clamp(15px, 3vw, 25px);
+    margin-top: clamp(12px, 2.5vw, 25px);
     text-shadow: 
         0 0 15px rgba(0, 217, 192, 0.5),
         0 2px 10px rgba(0, 0, 0, 0.5);
@@ -705,16 +704,16 @@ header {
 
 .hero {
     text-align: center;
-    padding: clamp(20px, 4vw, 40px) 20px;
+    padding: clamp(15px, 3.5vw, 40px) clamp(15px, 4vw, 20px);
 }
 
 .hero h2 {
-    font-size: clamp(1.3rem, 3.5vw, 2.2rem);
+    font-size: clamp(1.1rem, 3vw, 2.2rem);
     font-weight: 800;
     color: #ffffff;
-    margin-bottom: clamp(15px, 3vw, 25px);
+    margin-bottom: clamp(12px, 2.5vw, 25px);
     text-transform: uppercase;
-    letter-spacing: clamp(2px, 0.4vw, 4px);
+    letter-spacing: clamp(1.5px, 0.35vw, 4px);
     font-family: 'Orbitron', sans-serif;
     text-shadow: 
         0 0 20px rgba(247, 66, 111, 0.6),
@@ -723,22 +722,23 @@ header {
 }
 
 .event-details {
-    font-size: clamp(1rem, 2vw, 1.3rem);
+    font-size: clamp(0.9rem, 1.8vw, 1.3rem);
     color: var(--squid-teal);
     margin: 0;
     font-weight: 700;
     font-family: 'Orbitron', sans-serif;
-    letter-spacing: clamp(1px, 0.2vw, 2px);
+    letter-spacing: clamp(0.5px, 0.18vw, 2px);
     text-shadow: 0 0 15px rgba(0, 217, 192, 0.5);
     line-height: 1.6;
 }
 
 .scroll-down {
-    margin-top: 50px;
-    font-size: 2rem;
+    margin-top: clamp(30px, 6vw, 50px);
+    font-size: clamp(1.5rem, 4vw, 2rem);
     color: var(--squid-teal);
     text-decoration: none;
     animation: bounce 2s infinite;
+    display: inline-block;
 }
 
 @keyframes bounce {
@@ -758,11 +758,11 @@ header {
 }
 
 /* ========================================
-   ENHANCED TIMELINE SECTION
+   TIMELINE SECTION - RESPONSIVE
 ======================================== */
 
 #schedule {
-    padding: clamp(60px, 10vw, 100px) 20px;
+    padding: clamp(40px, 8vw, 100px) clamp(15px, 4vw, 20px);
     background: rgba(10, 10, 10, 0.95);
     backdrop-filter: blur(15px);
     position: relative;
@@ -770,22 +770,23 @@ header {
 
 #schedule h2 {
     text-align: center;
-    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-size: clamp(1.6rem, 4.5vw, 3.5rem);
     font-family: 'Orbitron', sans-serif;
     color: var(--squid-pink);
-    margin-bottom: 20px;
+    margin-bottom: clamp(15px, 3vw, 20px);
     text-transform: uppercase;
-    letter-spacing: 4px;
+    letter-spacing: clamp(2px, 0.5vw, 4px);
     text-shadow: 0 0 30px rgba(247, 66, 111, 0.6);
 }
 
 .schedule-subtitle {
     text-align: center;
-    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-size: clamp(0.85rem, 1.8vw, 1.2rem);
     color: var(--squid-teal);
-    margin-bottom: clamp(40px, 8vw, 80px);
+    margin-bottom: clamp(30px, 6vw, 80px);
     font-weight: 600;
-    letter-spacing: 1px;
+    letter-spacing: clamp(0.5px, 0.15vw, 1px);
+    padding: 0 clamp(15px, 4vw, 20px);
 }
 
 .timeline-container {
@@ -793,18 +794,19 @@ header {
     margin: 0 auto;
     position: relative;
     display: flex;
-    gap: clamp(30px, 6vw, 80px);
+    gap: clamp(20px, 5vw, 80px);
     align-items: flex-start;
+    flex-direction: row;
 }
 
 /* ========================================
-   GUARD SENTINEL
+   GUARD SENTINEL - RESPONSIVE
 ======================================== */
 
 .guard-sentinel {
     position: sticky;
-    top: 120px;
-    width: clamp(200px, 25vw, 350px);
+    top: clamp(80px, 15vw, 120px);
+    width: clamp(150px, 22vw, 350px);
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
@@ -858,8 +860,8 @@ header {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 400px;
-    height: 400px;
+    width: clamp(250px, 50vw, 400px);
+    height: clamp(250px, 50vw, 400px);
     background: radial-gradient(circle, 
         rgba(247, 66, 111, 0.3) 0%,
         rgba(255, 8, 68, 0.2) 30%,
@@ -869,24 +871,22 @@ header {
     z-index: -1;
 }
 
-/* Rest of the CSS continues unchanged from here... */
-
 /* ========================================
-   VERTICAL TIMELINE
+   VERTICAL TIMELINE - RESPONSIVE
 ======================================== */
 
 .timeline-vertical {
     flex: 1;
     position: relative;
-    padding: 20px 0;
+    padding: clamp(15px, 3vw, 20px) 0;
 }
 
 .timeline-line {
     position: absolute;
-    left: 30px;
+    left: clamp(18px, 4vw, 30px);
     top: 0;
     bottom: 0;
-    width: 4px;
+    width: clamp(3px, 0.5vw, 4px);
     background: linear-gradient(180deg, 
         var(--squid-pink) 0%,
         var(--squid-teal) 50%,
@@ -897,8 +897,8 @@ header {
 
 .timeline-item {
     position: relative;
-    padding-left: clamp(70px, 10vw, 90px);
-    margin-bottom: clamp(40px, 6vw, 60px);
+    padding-left: clamp(60px, 12vw, 90px);
+    margin-bottom: clamp(30px, 5vw, 60px);
     opacity: 0;
     transform: translateX(-50px);
     transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -912,16 +912,16 @@ header {
 /* Timeline Marker */
 .timeline-marker {
     position: absolute;
-    left: 16px;
+    left: clamp(4px, 1vw, 16px);
     top: 10px;
     z-index: 10;
 }
 
 .marker-dot {
-    width: 32px;
-    height: 32px;
+    width: clamp(24px, 5vw, 32px);
+    height: clamp(24px, 5vw, 32px);
     background: linear-gradient(135deg, var(--squid-pink), var(--squid-red));
-    border: 4px solid rgba(10, 10, 10, 0.95);
+    border: clamp(3px, 0.5vw, 4px) solid rgba(10, 10, 10, 0.95);
     border-radius: 50%;
     box-shadow: 
         0 0 0 4px rgba(247, 66, 111, 0.3),
@@ -979,8 +979,8 @@ header {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 32px;
-    height: 32px;
+    width: clamp(24px, 5vw, 32px);
+    height: clamp(24px, 5vw, 32px);
     background: var(--squid-pink);
     border-radius: 50%;
     transform: translate(-50%, -50%);
@@ -1004,9 +1004,9 @@ header {
     background: linear-gradient(135deg, 
         rgba(247, 66, 111, 0.15), 
         rgba(0, 217, 192, 0.1));
-    padding: clamp(20px, 4vw, 30px);
-    border-radius: 15px;
-    border-left: 4px solid var(--squid-pink);
+    padding: clamp(18px, 3.5vw, 30px);
+    border-radius: clamp(12px, 2vw, 15px);
+    border-left: clamp(3px, 0.5vw, 4px) solid var(--squid-pink);
     position: relative;
     backdrop-filter: blur(10px);
     box-shadow: 
@@ -1017,7 +1017,7 @@ header {
 
 .timeline-content:hover,
 .timeline-content:active {
-    transform: translateX(15px);
+    transform: translateX(clamp(8px, 2vw, 15px));
     border-left-color: var(--squid-teal);
     box-shadow: 
         0 15px 50px rgba(247, 66, 111, 0.4),
@@ -1052,13 +1052,13 @@ header {
     display: inline-block;
     background: var(--squid-pink);
     color: #000;
-    padding: 6px 16px;
+    padding: clamp(5px, 1vw, 6px) clamp(12px, 2.5vw, 16px);
     border-radius: 20px;
-    font-size: clamp(0.7rem, 1.5vw, 0.85rem);
+    font-size: clamp(0.65rem, 1.3vw, 0.85rem);
     font-weight: 800;
-    letter-spacing: 1.5px;
+    letter-spacing: clamp(1px, 0.2vw, 1.5px);
     text-transform: uppercase;
-    margin-bottom: 12px;
+    margin-bottom: clamp(10px, 2vw, 12px);
     font-family: 'Orbitron', sans-serif;
     box-shadow: 0 4px 15px rgba(247, 66, 111, 0.4);
 }
@@ -1079,64 +1079,64 @@ header {
 }
 
 .timeline-time {
-    font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+    font-size: clamp(0.75rem, 1.4vw, 0.95rem);
     color: var(--squid-teal);
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-bottom: clamp(8px, 1.5vw, 10px);
     font-family: 'Orbitron', sans-serif;
-    letter-spacing: 1px;
+    letter-spacing: clamp(0.5px, 0.15vw, 1px);
 }
 
 .timeline-content h3 {
-    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    font-size: clamp(1rem, 2.5vw, 1.8rem);
     font-family: 'Orbitron', sans-serif;
     color: #fff;
-    margin-bottom: 10px;
-    letter-spacing: 1px;
+    margin-bottom: clamp(8px, 1.5vw, 10px);
+    letter-spacing: clamp(0.5px, 0.15vw, 1px);
     text-transform: uppercase;
 }
 
 .timeline-icon {
     position: absolute;
-    top: clamp(20px, 4vw, 30px);
-    right: clamp(20px, 4vw, 30px);
-    font-size: clamp(2rem, 4vw, 3rem);
+    top: clamp(18px, 3.5vw, 30px);
+    right: clamp(18px, 3.5vw, 30px);
+    font-size: clamp(1.5rem, 3.5vw, 3rem);
     color: rgba(247, 66, 111, 0.2);
     font-weight: 900;
     line-height: 1;
 }
 
 /* ========================================
-   EVENTS SECTION
+   EVENTS SECTION - RESPONSIVE
 ======================================== */
 
 #events {
-    padding: clamp(60px, 10vw, 80px) 20px;
+    padding: clamp(40px, 8vw, 80px) clamp(15px, 4vw, 20px);
     background: rgba(0, 0, 0, 0.7);
 }
 
 #events h2 {
     text-align: center;
-    font-size: clamp(2rem, 5vw, 3rem);
+    font-size: clamp(1.6rem, 4.5vw, 3rem);
     font-family: 'Orbitron', sans-serif;
     color: var(--squid-teal);
-    margin-bottom: clamp(40px, 6vw, 60px);
+    margin-bottom: clamp(30px, 5vw, 60px);
     text-transform: uppercase;
-    letter-spacing: 3px;
+    letter-spacing: clamp(2px, 0.4vw, 3px);
 }
 
 .event-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+    gap: clamp(20px, 4vw, 30px);
     max-width: 1200px;
     margin: 0 auto;
 }
 
 .card {
     background: linear-gradient(135deg, rgba(247, 66, 111, 0.15), rgba(0, 217, 192, 0.15));
-    padding: clamp(20px, 4vw, 30px);
-    border-radius: 15px;
+    padding: clamp(18px, 3.5vw, 30px);
+    border-radius: clamp(12px, 2vw, 15px);
     border: 2px solid transparent;
     transition: all 0.4s ease;
     position: relative;
@@ -1152,7 +1152,7 @@ header {
     right: -2px;
     bottom: -2px;
     background: linear-gradient(135deg, var(--squid-pink), var(--squid-teal), var(--squid-green));
-    border-radius: 15px;
+    border-radius: clamp(12px, 2vw, 15px);
     z-index: -1;
     opacity: 0;
     transition: opacity 0.4s ease;
@@ -1170,18 +1170,18 @@ header {
 }
 
 .card h3 {
-    font-size: clamp(1.4rem, 3vw, 1.8rem);
+    font-size: clamp(1.2rem, 2.8vw, 1.8rem);
     font-family: 'Orbitron', sans-serif;
     color: var(--squid-pink);
-    margin-bottom: 20px;
-    letter-spacing: 1px;
+    margin-bottom: clamp(15px, 3vw, 20px);
+    letter-spacing: clamp(0.5px, 0.15vw, 1px);
 }
 
 .card p {
-    font-size: clamp(0.9rem, 2vw, 1rem);
+    font-size: clamp(0.85rem, 1.8vw, 1rem);
     line-height: 1.6;
     color: #ddd;
-    margin-bottom: 12px;
+    margin-bottom: clamp(10px, 2vw, 12px);
 }
 
 .card p strong {
@@ -1190,7 +1190,7 @@ header {
 }
 
 /* ========================================
-   EVENT CARD WITH MODAL POPUP
+   EVENT CARD WITH MODAL - RESPONSIVE
 ======================================== */
 
 .event-card .card-header {
@@ -1199,18 +1199,18 @@ header {
 }
 
 .event-card .event-timing {
-    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-size: clamp(0.9rem, 1.8vw, 1.2rem);
     color: var(--squid-teal);
-    margin: 0.5rem 0;
+    margin: clamp(0.4rem, 1vw, 0.5rem) 0;
     font-weight: 700;
     font-family: 'Orbitron', sans-serif;
-    letter-spacing: 1px;
+    letter-spacing: clamp(0.5px, 0.15vw, 1px);
 }
 
 .event-card .event-team {
-    font-size: clamp(0.9rem, 1.8vw, 1rem);
+    font-size: clamp(0.8rem, 1.6vw, 1rem);
     color: var(--muted);
-    margin: 0.5rem 0 1.5rem 0;
+    margin: clamp(0.4rem, 1vw, 0.5rem) 0 clamp(1.2rem, 2.5vw, 1.5rem) 0;
     font-weight: 600;
 }
 
@@ -1223,23 +1223,24 @@ header {
 .tap-details-btn {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: clamp(4px, 1vw, 6px);
     background: linear-gradient(135deg, var(--squid-pink), var(--squid-red));
     color: #fff;
-    padding: clamp(0.5rem, 1.5vw, 0.65rem) clamp(1rem, 2vw, 1.25rem);
+    padding: clamp(0.45rem, 1.3vw, 0.65rem) clamp(0.9rem, 1.8vw, 1.25rem);
     border-radius: 50px;
     font-weight: 700;
-    font-size: clamp(0.75rem, 1.5vw, 0.85rem);
+    font-size: clamp(0.7rem, 1.4vw, 0.85rem);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: clamp(0.5px, 0.15vw, 1px);
     transition: all 0.3s ease;
     box-shadow: 0 5px 15px rgba(247, 66, 111, 0.3);
     position: relative;
     overflow: hidden;
     font-family: 'Orbitron', sans-serif;
     border: 2px solid transparent;
-    margin-top: 0.5rem;
+    margin-top: clamp(0.4rem, 1vw, 0.5rem);
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .tap-details-btn::before {
@@ -1280,7 +1281,7 @@ header {
 }
 
 /* ========================================
-   MODAL POPUP STYLES
+   MODAL POPUP - RESPONSIVE
 ======================================== */
 
 .modal-overlay {
@@ -1295,7 +1296,7 @@ header {
     display: none;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: clamp(15px, 3vw, 20px);
     animation: fadeIn 0.3s ease;
 }
 
@@ -1318,12 +1319,12 @@ header {
         rgba(0, 217, 192, 0.15),
         rgba(10, 10, 10, 0.95));
     border: 2px solid var(--squid-pink);
-    border-radius: 20px;
-    max-width: 900px;
+    border-radius: clamp(15px, 3vw, 20px);
+    max-width: min(900px, 95vw);
     width: 100%;
     max-height: 90vh;
     overflow-y: auto;
-    padding: clamp(25px, 5vw, 40px);
+    padding: clamp(20px, 4vw, 40px);
     position: relative;
     box-shadow: 
         0 30px 80px rgba(247, 66, 111, 0.6),
@@ -1345,15 +1346,15 @@ header {
 
 .modal-close {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 40px;
-    height: 40px;
+    top: clamp(15px, 3vw, 20px);
+    right: clamp(15px, 3vw, 20px);
+    width: clamp(35px, 7vw, 40px);
+    height: clamp(35px, 7vw, 40px);
     background: var(--squid-pink);
     border: none;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 24px;
+    font-size: clamp(20px, 4vw, 24px);
     color: #000;
     font-weight: 900;
     display: flex;
@@ -1362,6 +1363,7 @@ header {
     transition: all 0.3s ease;
     z-index: 10;
     box-shadow: 0 5px 20px rgba(247, 66, 111, 0.5);
+    -webkit-tap-highlight-color: transparent;
 }
 
 .modal-close:hover,
@@ -1372,48 +1374,49 @@ header {
 }
 
 .modal-header {
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
+    margin-bottom: clamp(1.5rem, 3vw, 2rem);
+    padding-bottom: clamp(1.2rem, 2.5vw, 1.5rem);
     border-bottom: 2px solid rgba(247, 66, 111, 0.3);
 }
 
 .modal-header h3 {
-    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-size: clamp(1.4rem, 3.5vw, 2.5rem);
     font-family: 'Orbitron', sans-serif;
     color: var(--squid-pink);
-    margin-bottom: 1rem;
-    letter-spacing: 2px;
+    margin-bottom: clamp(0.8rem, 1.5vw, 1rem);
+    letter-spacing: clamp(1px, 0.3vw, 2px);
     text-shadow: 0 0 30px rgba(247, 66, 111, 0.6);
+    line-height: 1.2;
 }
 
 .modal-header .event-timing {
-    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    font-size: clamp(0.95rem, 2.2vw, 1.4rem);
     color: var(--squid-teal);
-    margin: 0.75rem 0;
+    margin: clamp(0.6rem, 1.2vw, 0.75rem) 0;
     font-weight: 700;
     font-family: 'Orbitron', sans-serif;
-    letter-spacing: 1.5px;
+    letter-spacing: clamp(0.8px, 0.2vw, 1.5px);
 }
 
 .modal-header .event-team {
-    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-size: clamp(0.9rem, 1.8vw, 1.2rem);
     color: var(--muted);
-    margin: 0.5rem 0;
+    margin: clamp(0.4rem, 0.8vw, 0.5rem) 0;
     font-weight: 600;
 }
 
 .modal-body {
-    margin-bottom: 2rem;
+    margin-bottom: clamp(1.5rem, 3vw, 2rem);
 }
 
 .event-description h4,
 .event-rounds h4 {
     color: var(--squid-teal);
-    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
-    margin: 2rem 0 1rem 0;
+    font-size: clamp(1rem, 2.2vw, 1.5rem);
+    margin: clamp(1.5rem, 3vw, 2rem) 0 clamp(0.8rem, 1.5vw, 1rem) 0;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: clamp(1px, 0.3vw, 2px);
     font-family: 'Orbitron', sans-serif;
     text-shadow: 0 0 20px rgba(0, 217, 192, 0.4);
 }
@@ -1421,19 +1424,19 @@ header {
 .event-description p {
     color: #ddd;
     line-height: 1.8;
-    margin-bottom: 1rem;
-    font-size: clamp(1rem, 2vw, 1.1rem);
+    margin-bottom: clamp(0.8rem, 1.5vw, 1rem);
+    font-size: clamp(0.9rem, 1.8vw, 1.1rem);
 }
 
 .event-tagline {
     font-style: italic;
     color: var(--squid-teal);
-    margin-top: 1rem;
-    padding: 1rem 1.5rem;
+    margin-top: clamp(0.8rem, 1.5vw, 1rem);
+    padding: clamp(0.8rem, 1.5vw, 1rem) clamp(1.2rem, 2.5vw, 1.5rem);
     background: rgba(0, 217, 192, 0.1);
     border-left: 4px solid var(--squid-teal);
     border-radius: 8px;
-    font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+    font-size: clamp(0.85rem, 1.6vw, 1.05rem);
 }
 
 .event-rounds ul {
@@ -1447,17 +1450,18 @@ header {
         rgba(0, 217, 192, 0.1), 
         rgba(0, 255, 135, 0.08));
     border-left: 4px solid var(--squid-teal);
-    padding: clamp(1.2rem, 2.5vw, 1.5rem);
-    margin-bottom: 1.2rem;
+    padding: clamp(1rem, 2.2vw, 1.5rem);
+    margin-bottom: clamp(1rem, 2vw, 1.2rem);
     color: #ddd;
     line-height: 1.8;
     border-radius: 10px;
     transition: all 0.3s ease;
 }
 
-.event-rounds li:hover {
+.event-rounds li:hover,
+.event-rounds li:active {
     border-left-color: var(--squid-pink);
-    transform: translateX(8px);
+    transform: translateX(clamp(5px, 1.5vw, 8px));
     box-shadow: 0 8px 25px rgba(0, 217, 192, 0.3);
     background: linear-gradient(135deg, 
         rgba(0, 217, 192, 0.15), 
@@ -1467,8 +1471,8 @@ header {
 .event-rounds li strong {
     color: var(--squid-pink);
     display: block;
-    margin-bottom: 0.75rem;
-    font-size: clamp(1.05rem, 2vw, 1.2rem);
+    margin-bottom: clamp(0.6rem, 1.2vw, 0.75rem);
+    font-size: clamp(0.95rem, 1.8vw, 1.2rem);
     font-family: 'Orbitron', sans-serif;
 }
 
@@ -1477,15 +1481,15 @@ header {
         rgba(247, 66, 111, 0.15), 
         rgba(255, 8, 68, 0.1));
     border: 2px solid rgba(247, 66, 111, 0.4);
-    padding: clamp(1.2rem, 2.5vw, 1.5rem);
-    border-radius: 15px;
-    margin: 2rem 0;
+    padding: clamp(1rem, 2.2vw, 1.5rem);
+    border-radius: clamp(12px, 2vw, 15px);
+    margin: clamp(1.5rem, 3vw, 2rem) 0;
 }
 
 .event-info p {
-    margin: 0.75rem 0;
+    margin: clamp(0.6rem, 1.2vw, 0.75rem) 0;
     color: #ddd;
-    font-size: clamp(1rem, 2vw, 1.1rem);
+    font-size: clamp(0.9rem, 1.8vw, 1.1rem);
 }
 
 .event-info strong {
@@ -1496,7 +1500,7 @@ header {
 
 .modal-footer {
     text-align: center;
-    padding-top: 1.5rem;
+    padding-top: clamp(1.2rem, 2.5vw, 1.5rem);
     border-top: 2px solid rgba(247, 66, 111, 0.3);
 }
 
@@ -1504,13 +1508,13 @@ header {
     display: inline-block;
     background: linear-gradient(135deg, var(--squid-pink), var(--squid-red));
     color: #fff;
-    padding: clamp(1rem, 2.5vw, 1.25rem) clamp(2.5rem, 5vw, 3.5rem);
+    padding: clamp(0.9rem, 2vw, 1.25rem) clamp(2rem, 4.5vw, 3.5rem);
     border-radius: 50px;
     text-decoration: none;
     font-weight: 700;
-    font-size: clamp(1.1rem, 2vw, 1.3rem);
+    font-size: clamp(1rem, 1.8vw, 1.3rem);
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: clamp(1.5px, 0.3vw, 2px);
     transition: all 0.3s ease;
     box-shadow: 0 10px 30px rgba(247, 66, 111, 0.5);
     position: relative;
@@ -1518,6 +1522,7 @@ header {
     font-family: 'Orbitron', sans-serif;
     border: none;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .register-btn::before {
@@ -1544,7 +1549,7 @@ header {
 
 /* Custom scrollbar for modal */
 .modal-content::-webkit-scrollbar {
-    width: 10px;
+    width: clamp(8px, 1.5vw, 10px);
 }
 
 .modal-content::-webkit-scrollbar-track {
@@ -1584,8 +1589,8 @@ header {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 100px;
-    height: 100px;
+    width: clamp(80px, 15vw, 100px);
+    height: clamp(80px, 15vw, 100px);
     background: radial-gradient(circle, #fff 0%, #f7426f 30%, #ff0844 60%, transparent 100%);
     border-radius: 50%;
     transform: translate(-50%, -50%) scale(0);
@@ -1611,8 +1616,8 @@ header {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 100px;
-    height: 100px;
+    width: clamp(80px, 15vw, 100px);
+    height: clamp(80px, 15vw, 100px);
     border: 3px solid #f7426f;
     border-radius: 50%;
     transform: translate(-50%, -50%) scale(0);
@@ -1652,8 +1657,8 @@ header {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 8px;
-    height: 8px;
+    width: clamp(6px, 1.2vw, 8px);
+    height: clamp(6px, 1.2vw, 8px);
     background: #f7426f;
     border-radius: 50%;
     animation: particleExplode 1s ease-out forwards;
@@ -1710,21 +1715,23 @@ body.shake {
 }
 
 /* ========================================
-   RESPONSIVE DESIGN
+   RESPONSIVE BREAKPOINTS
 ======================================== */
 
+/* Large Tablets and Small Desktops */
 @media (max-width: 1024px) {
     .timeline-container {
         flex-direction: column;
         align-items: center;
-        gap: 60px;
+        gap: clamp(40px, 8vw, 60px);
     }
 
     .guard-sentinel {
         position: relative;
         top: 0;
-        width: min(280px, 70vw);
+        width: min(280px, 60vw);
         order: -1;
+        margin-bottom: 30px;
     }
 
     .timeline-vertical {
@@ -1735,61 +1742,82 @@ body.shake {
     .modal-content {
         max-width: 95%;
     }
+    
+    .college-info-simple {
+        gap: 12px;
+    }
+    
+    .squid-doll {
+        width: clamp(200px, 45vw, 280px);
+    }
 }
 
+/* Tablets */
 @media (max-width: 768px) {
     .college-info-simple {
-        padding: 25px 15px 20px;
+        padding: 20px 15px 15px;
+        gap: 10px;
+    }
+    
+    .nec-logo {
+        width: clamp(70px, 18vw, 90px);
+    }
+    
+    .iita-logo {
+        width: clamp(100px, 25vw, 130px);
     }
 
     .schedule-subtitle {
-        font-size: 0.9rem;
+        font-size: clamp(0.8rem, 1.6vw, 0.9rem);
+        padding: 0 15px;
     }
 
     .guard-sentinel {
-        width: min(220px, 60vw);
+        width: min(220px, 55vw);
+        margin-bottom: 25px;
     }
 
     .timeline-item {
-        padding-left: 70px;
-        margin-bottom: 40px;
+        padding-left: clamp(55px, 11vw, 70px);
+        margin-bottom: clamp(30px, 5.5vw, 40px);
     }
 
     .timeline-line {
-        left: 20px;
+        left: clamp(16px, 3.5vw, 20px);
         width: 3px;
     }
 
     .timeline-marker {
-        left: 6px;
+        left: clamp(2px, 0.8vw, 6px);
     }
 
     .marker-dot {
-        width: 28px;
-        height: 28px;
+        width: clamp(22px, 4.5vw, 28px);
+        height: clamp(22px, 4.5vw, 28px);
+        border-width: 3px;
     }
 
     .timeline-content {
-        padding: 20px;
+        padding: clamp(16px, 3.2vw, 20px);
     }
 
     .timeline-icon {
-        font-size: 2rem;
-        top: 20px;
-        right: 20px;
+        font-size: clamp(1.4rem, 3.2vw, 2rem);
+        top: clamp(16px, 3.2vw, 20px);
+        right: clamp(16px, 3.2vw, 20px);
     }
 
     .event-cards {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: clamp(18px, 3.5vw, 20px);
     }
 
     .shape {
-        opacity: 0.06;
+        opacity: 0.08;
     }
 
     .squid-doll {
-        width: min(220px, 60vw);
+        width: clamp(180px, 40vw, 220px);
         opacity: 0.45;
     }
 
@@ -1800,34 +1828,44 @@ body.shake {
     }
 
     .modal-content {
-        padding: 20px;
+        padding: clamp(18px, 3.5vw, 20px);
         max-height: 85vh;
     }
 
     .modal-close {
-        width: 35px;
-        height: 35px;
-        font-size: 20px;
+        width: clamp(32px, 6.5vw, 35px);
+        height: clamp(32px, 6.5vw, 35px);
+        font-size: clamp(18px, 3.5vw, 20px);
         top: 15px;
         right: 15px;
     }
 }
 
+/* Mobile Phones */
 @media (max-width: 480px) {
     .college-info-simple {
-        padding: 20px 10px 15px;
+        padding: 18px 12px 12px;
+        gap: 8px;
+    }
+    
+    .nec-logo {
+        width: clamp(60px, 16vw, 80px);
+    }
+    
+    .iita-logo {
+        width: clamp(90px, 23vw, 110px);
     }
 
     .association-banner {
-        padding: 25px 15px 20px;
+        padding: 22px 12px 18px;
     }
 
     .logo {
-        padding: 35px 15px 25px;
+        padding: 30px 12px 22px;
     }
 
     .timeline-item {
-        padding-left: 60px;
+        padding-left: clamp(50px, 10vw, 60px);
     }
 
     .timeline-line {
@@ -1850,6 +1888,7 @@ body.shake {
 
     .guard-sentinel {
         width: min(180px, 50vw);
+        margin-bottom: 20px;
     }
 
     .modal-content {
@@ -1859,10 +1898,113 @@ body.shake {
 
     .register-btn {
         width: 100%;
-        padding: 1rem 2rem;
+        padding: clamp(0.85rem, 1.8vw, 1rem) clamp(1.5rem, 3.5vw, 2rem);
+    }
+    
+    .event-cards {
+        gap: 15px;
+    }
+    
+    .squid-doll {
+        width: clamp(150px, 35vw, 180px);
+    }
+    
+    .grid-overlay {
+        background-size: 30px 30px;
     }
 }
 
+/* Extra Small Devices */
+@media (max-width: 360px) {
+    .college-info-simple {
+        padding: 15px 10px 10px;
+    }
+    
+    .nec-logo {
+        width: 60px;
+    }
+    
+    .iita-logo {
+        width: 85px;
+    }
+    
+    .timeline-item {
+        padding-left: 50px;
+    }
+    
+    .guard-sentinel {
+        width: min(160px, 48vw);
+    }
+    
+    .squid-doll {
+        width: 140px;
+    }
+}
+
+/* Landscape Mobile */
+@media (max-width: 900px) and (orientation: landscape) {
+    header {
+        min-height: auto;
+        padding: 20px 0;
+    }
+    
+    .logo {
+        padding: 20px 15px;
+    }
+    
+    .hero {
+        padding: 15px;
+    }
+    
+    .scroll-down {
+        margin-top: 20px;
+    }
+    
+    .modal-content {
+        max-height: 80vh;
+    }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+    /* Larger touch targets */
+    .tap-details-btn,
+    .modal-close,
+    .register-btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    #register-btn {
+        min-height: 48px;
+        min-width: 120px;
+    }
+
+    .card {
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Remove hover effects, keep only active states */
+    .card:hover::before {
+        opacity: 0;
+    }
+    
+    .timeline-content:hover {
+        transform: none;
+    }
+    
+    .guard-image:hover {
+        transform: none;
+        filter: 
+            drop-shadow(0 0 40px rgba(247, 66, 111, 0.6))
+            drop-shadow(0 0 80px rgba(255, 8, 68, 0.4))
+            brightness(1.1)
+            contrast(1.15);
+    }
+}
+
+/* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -1871,24 +2013,40 @@ body.shake {
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
     }
+    
+    .squid-doll,
+    .guard-image {
+        animation: none !important;
+    }
 }
 
-@media (hover: none) and (pointer: coarse) {
-    #register-btn {
-        min-height: 48px;
-        min-width: 120px;
+/* High DPI Screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .ignita-title,
+    .college-name,
+    .association-banner h3 {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
     }
+}
 
-    .card {
-        cursor: pointer;
+/* Print Styles */
+@media print {
+    .animated-bg,
+    .geometric-shapes,
+    #bg-canvas,
+    .guard-sentinel,
+    .modal-overlay,
+    .explosion-container {
+        display: none !important;
     }
-
-    .modal-close {
-        min-width: 44px;
-        min-height: 44px;
+    
+    body {
+        background: white;
+        color: black;
     }
-
-    .register-btn {
-        min-height: 48px;
+    
+    .timeline-container {
+        flex-direction: column;
     }
 }
