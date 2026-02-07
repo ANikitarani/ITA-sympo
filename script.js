@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initSmoothScroll();
     initButtonEffects();
     initLightning();
-    initDollAnimation();
     initScrollAnimations();
     initEventCardModals();
     initMobileOptimizations();
@@ -76,7 +75,6 @@ function initTouchSupport() {
         }
         lastTouchEnd = now;
     }, false);
-    
     // Add touch feedback to interactive elements
     const touchElements = document.querySelectorAll('.card, .tap-details-btn, .register-btn, .modal-close');
     
@@ -84,7 +82,6 @@ function initTouchSupport() {
         element.addEventListener('touchstart', function() {
             this.classList.add('touch-active');
         }, { passive: true });
-        
         element.addEventListener('touchend', function() {
             setTimeout(() => {
                 this.classList.remove('touch-active');
@@ -112,6 +109,7 @@ function initEventCardModals() {
     
     eventCards.forEach(card => {
         const cardHeader = card.querySelector('.card-header');
+        
         
         // Create "Tap for Details" button
         const tapButton = document.createElement('div');
@@ -253,12 +251,6 @@ function initAnimatedBackground() {
     cloudLayer3.className = 'cloud-layer-3';
     animatedBg.appendChild(cloudLayer3);
     
-    const doll = document.createElement('div');
-    doll.className = 'squid-doll';
-    doll.innerHTML = `
-        <img src="squid-doll.png" alt="Squid Game Doll" class="doll-image" />
-    `;
-    animatedBg.appendChild(doll);
     
     const vignette = document.createElement('div');
     vignette.className = 'vignette';
@@ -276,63 +268,6 @@ function initAnimatedBackground() {
     lightning.className = 'lightning';
     lightning.id = 'lightning';
     animatedBg.appendChild(lightning);
-}
-
-// ========================================
-// DOLL ANIMATION (RED/GREEN + BLINK)
-// ========================================
-
-function initDollAnimation() {
-    const doll = document.querySelector('.squid-doll');
-    const lightning = document.getElementById('lightning');
-    if (!doll) return;
-
-    let isRedLight = false;
-
-    function cycleDoll() {
-        const waitTime = Math.random() * 3000 + 4000;
-
-        setTimeout(() => {
-            isRedLight = !isRedLight;
-
-            doll.classList.add('blink');
-            setTimeout(() => doll.classList.remove('blink'), 350);
-
-            if (isRedLight) {
-                if (lightning) {
-                    lightning.style.background = 'rgba(255, 8, 68, 0.25)';
-                    lightning.style.opacity = '1';
-
-                    setTimeout(() => {
-                        lightning.style.opacity = '0';
-                        lightning.style.background = 'transparent';
-                    }, 500);
-                }
-
-                doll.classList.add('red');
-                doll.classList.remove('green');
-
-            } else {
-                if (lightning) {
-                    lightning.style.background = 'rgba(0, 255, 135, 0.2)';
-                    lightning.style.opacity = '1';
-
-                    setTimeout(() => {
-                        lightning.style.opacity = '0';
-                        lightning.style.background = 'transparent';
-                    }, 500);
-                }
-
-                doll.classList.add('green');
-                doll.classList.remove('red');
-            }
-
-            cycleDoll();
-        }, waitTime);
-    }
-
-    doll.classList.add('green');
-    setTimeout(cycleDoll, 3000);
 }
 
 // ========================================
